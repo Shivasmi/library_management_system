@@ -1,7 +1,7 @@
 
 
 import csv 
-import datetime
+from datetime import datetime
 class Transaction:
     def __init__(self, book_title, member_id, borrow_date, expected_return_date, actual_return_date):
         self.book_title = book_title
@@ -58,16 +58,17 @@ class Transaction:
             writer.writerows(rows)
             print(" Quantity have been updated after sucessfuly returned book in actual date have completed ")
 
-    def add_transaction(self, transaction):
-            self.transaction.append(transaction)
     
-    def search_transaction_by_member_id(self, member_id):
-        for transaction in self.transactions:
-            if transaction.member_id == member_id:
-                return transaction
-            return None
+    def search_transaction_by_field_name(self, field_name, index):
+        found = False
+        with open("transaction_data.csv", 'r' ) as file: 
+            for line in file: 
+                transaction_info = line.strip().split(",")
+                if transaction_info[index] == field_name:
+                    found = True
+                    return found
+            return found 
 
-   
 def main():
     transaction = Transaction ('book_title', 'member_id', 'borrow_date', 'expected_return_date', 'actual_return_date' )
     while True:
@@ -75,34 +76,36 @@ def main():
         print ("1. add record of book borrower transaction  ")
         print ("2. add record of book return transaction ")
         print ("3. add record of member id login transaction ")
+        print ("0. for exiting from the programm ")
 
-        choice = input ("enter your choice: (1-3)" )
-            
+        choice = input ("enter your choice: (1-3): " )
+        borrow_date = datetime.now().strftime("%d/%m/%y")
         if choice == '1':
-            book_title = int(input("enter the book title: "))
-            member_id = int(input("enter your memeber id "))
-            borrow_date = int(input("enter the date you borrow the book"))
-            expected_return_date = int(input("enter the date you expected to return the book"))
-            actual_return_date = int (input("enter the date actual date you have return"))
+            book_title = input("enter the book title: ")
+            member_id = int(input("enter your memeber id: "))
+            borrow_date = int(input("enter the borrower date  in dd/mm/yy format:" ))
+            expected_return_date = int(input("enter the date you expected to return the book in dd/mm/yy format: "))
+            actual_return_date = int (input("enter the actual date you have return in dd/mm/yy format: "))
 
             transaction = Transaction (book_title, member_id, borrow_date, expected_return_date, actual_return_date)
-            transaction.add_transaction(transaction)
+            transaction.record_transaction()
             print("Transaction Add sucessfully" )
 
         elif choice == '2':
+            
             book_title = input("enter the book title: ")
-            member_id = int(input("enter your memeber id: "))
-            borrow_date = int(input("enter the date you borrow the book:"))
-            expected_return_date = int(input("enter the date you expected to return the book:"))
-            actual_return_date = int (input("enter the date actual date you have return:"))
+            member_id = int(input("enter your memeber id "))
+            borrow_date = int(input("enter the date you borrow the book: "))
+            expected_return_date = int(input ("enter the date you expected to return the book in dd/mm/yy format: "))
+            actual_return_date = int (input("enter the date actual date you have return in dd/mm/yy format: "))
 
             transaction = Transaction (book_title, member_id, borrow_date, expected_return_date, actual_return_date)
-            transaction.add_transaction(transaction)
+            transaction.record_transaction()
             print("Transaction Add sucessfully" )
 
         elif choice == '3':
             member_id = input(" enter the memeber id of the transaction ")
-            transaction = transaction.search_transaction_by_member_id(member_id)
+            transaction = transaction.search_transaction_by_field_name(member_id)
             if transaction:
                 print(" Transaction Found " )
             else: 

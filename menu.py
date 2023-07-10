@@ -2,7 +2,19 @@ import csv
 import books
 import borrowers
 
+def main_menu():
+    print("Welcome to AS Library Management System")  
+    print("Please enter your choice to contiue ")
+    print (" 1. Admin Menu ")
+    print (" 2. Borrower Menu ")
 
+    user_choice = int(input("Choose the number as per your role: 1 For Admin Menu, 2 for Borrower Menu "))
+    if user_choice == 1:
+        Admin_menu()
+    elif user_choice == 2: 
+        borrower_menu()
+    else: 
+        print (" Please enter a valid input from menu ")
 
 def add_user():
     name = input("enter your full legal name: ")
@@ -10,7 +22,7 @@ def add_user():
     phone = input (" enter your phone number ")
     email = input (" enter your email ")
     user_data = f"{name},{address},{phone},{email} "
-    with open("user_data.csv", "a" ) as file:
+    with open("user_data.csv", "a+" ) as file:
         file.write(user_data)
     print("User added sucessfully")
 
@@ -27,13 +39,12 @@ def Admin_menu():
        
     admin_choice = int(input("enter your choice "))
     if admin_choice == 1:
-        print( "Add a new user")
         name = input("enter your full legal name: ")
         address = input ("enter your full address ")
         phone = input (" enter your phone number ")
         email = input (" enter your email ")
         user_data = f"{name},{address},{phone},{email} "
-        with open("user_data.csv", "a" ) as file:
+        with open("user_data.csv", "a+" ) as file:
             file.write(user_data)
         print("User added sucessfully")
         
@@ -73,19 +84,7 @@ def borrower_menu():
             print ( "Wrong input, Try again with right choice ")
        
 
-def main_menu():
-        print("Welcome to AS Library Management System")  
-        print("Please enter your choice to contiue ")
-        print (" 1. Admin Menu ")
-        print (" 2. Borrower Menu ")
 
-        user_choice = int(input("Choose the number as per your role: 1 For Admin Menu, 2 for Borrower Menu "))
-        if user_choice == 1:
-            Admin_menu()
-        elif user_choice == 2: 
-            borrower_menu()
-        else: 
-            print (" Please enter a valid input from menu ")
 
 
 

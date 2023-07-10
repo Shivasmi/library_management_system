@@ -2,114 +2,61 @@
 import csv
 
 class Book:
-    def __init__(self, book_id, author_name, title, pub_year, genre, edition, quantity):
+    def __init__(self, book_id, author_name, book_title, pub_year, genre, edition, quantity):
         self.book_id = book_id
         self.author_name = author_name
-        self.title = title
+        self.title = book_title
         self.pub_year = pub_year
         self.genre = genre 
         self.edition = edition
         self.quantity = quantity
     
-    # def __write_csv_file(book_data):
-    #     with open("book_data.csv", "w", newlines =' ') as file:
-    #         writer = csv.writer(file)
-    #         writer.writerows(book_data)
-   
+
     def add_book(self):
             book_id = input("Enter book ID: ")
             author_name = input("Enter author name: ")
-            title = input("Enter book title: ")
+            book_title = input("Enter book title: ")
             pub_year = input("Enter publication year: ")
             genre = input("Enter book genre: ")
             edition = input("Enter book edition: ")
             quantity = input("Enter book quantity: ")
 
             
-            book_data = f"{book_id},{author_name},{title},{pub_year},{genre},{edition},{quantity}\n"
-            found = self.search_book_by_title(self.title)
-            if not found:
-                with open("book_data.csv", "a") as file:
-                    file.write(book_data)
-                print("Book added successfully!")
+            book_data = f"{book_id},{author_name},{book_title},{pub_year},{genre},{edition},{quantity}\n"
+            found = False
+            with open("book_data.csv", "r+") as file:
+                for line in file:
+                    if book_data.strip() ==line.strip():
+                        found = True
+                        break
+            if found: 
+                print ("This book already exist in the system!! ")
+        
             else:
-                print("Book already exists ")
+                with open("book_data.csv", "a+" ) as file:
+                    file.write(book_data)
+                print(" Book added Sucessfully!!")
 
+            # if not found:
+            #     with open("book_data.csv", "a+") as file:
+            #         file.write(book_data)
+            #     print("Book added successfully!")
+            # else:
+            #     print("Book already exists ")
 
-
-    def search_book_by_author(self, author_name):
+    def search_by_field(self, field_name, index ):
         found = False
         with open("book_data.csv", "r") as file:
-            
             for line in file: 
                 book_info = line.strip().split(",")
-                if book_info[2] == author_name:
+                if book_info[index] == field_name:
                     found = True 
                     return found 
-                
-            if not found:
-                return found 
-            
-
-    def search_book_by_title(self, title):
-        found = False
-        with open ("book_data.csv", "r" ) as file:
-            for line in file:
-                book_info = line.strip().split(",")
-                if book_info == title:
-                    found = True
-                    return found 
-            
-            if not found:
-                return found
-                
-    def search_book_by_pub_year(self, pub_year):
-        found =False
-        with open("book_data.csv", "r" ) as file: 
-            for line in file: 
-                book_info = line.strip().split(",")
-                if book_info == pub_year:
-                    found = True
-                    return found
-            if not found: 
-                return found
-
-    def search_book_by_genre(self, genre):
-        found = False
-        with open ("book_data.csv", "r") as file:
-            for line in file:
-                book_info = line.strip().split(",")
-                if book_info == genre:
-                    found = True
-                    return found 
-                
-            if not found:
-                return found
-    def search_book_edition (self, edition):
-        found = False
-        with open ("book_data.csv", "r") as file:
-            for line in file:
-                book_info = line.strip().split(",")
-                if book_info == edition:
-                    found = True
-                    return found 
-            if not found: 
-                return found
-            
-    def search_quantity( self, quantity):
-        found = False
-        with open ("book_data.csv", "r") as file:
-            for line in file: 
-                book_info = line.strip().split(",")
-                if book_info == quantity:
-                    found = True
-                    return found 
-            if not found:
-                return found
-            
+        return found
+          
 
 def main(): 
-    book = Book('book_id', 'author_name', 'title', 'pub_year', 'genre', 'edition', 'quantity')
+    book = Book('book_id ==book_id', 'author_name ==author_name', 'book_title==book-title', 'pub_year==pub_year', 'genre==genre', 'edition==edition', 'quantity==quantity')
     while True: 
         print("\n Enter your choice  ")
         print( "1. Add book ")
@@ -127,28 +74,28 @@ def main():
             book.add_book()
         elif user_choice == "2":
             author_name = input("enter author name:  ")
-            found = book.search_book_by_author(author_name)
+            found = book.search_by_field(author_name, 1)
             if found:
                 print (" Book found ")
             else: 
                 print(" book not in the system ")
         elif user_choice == "3":
-            title = input("Enter book title: ")
-            found = book.search_book_by_title(title)
+            book_title = input("Enter book title: ")
+            found = book.search_by_field(book_title, 2)
             if found:
                 print("Book found.")
             else:
                 print("Book not found.")
         elif user_choice == "4":
             pub_year = input("Enter publication year: ")
-            found = book.search_book_by_pub_year(pub_year)
+            found = book.search_by_field(pub_year, 3)
             if found:
                 print("Book found.")
             else:
                 print("Book not found.")
         elif user_choice == "5":
             genre = input("Enter book genre: ")
-            found = book.search_book_by_genre(genre)
+            found = book.search_by_field(genre, 4)
             if found:
                 print("Book found.")
             else:
@@ -156,14 +103,14 @@ def main():
         elif user_choice == "6":
                 edition = input("Enter book edition: ")
 
-                found = book.search_book_by_edition(edition)
+                found = book.search_by_field(edition, 5)
                 if found:
                     print("Book found.")
                 else:
                     print("Book not found.")
         elif user_choice == "7":
             quantity = input("Enter book quantity: ")
-            found = book.search_book_by_quantity(quantity)
+            found = book.search_by_field(quantity, 6)
             if found:
                 print("Book found.")
             else:
