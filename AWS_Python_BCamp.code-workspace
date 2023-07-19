@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../AWS_Python_BCamp"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
